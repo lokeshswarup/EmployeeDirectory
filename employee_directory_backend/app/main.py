@@ -9,7 +9,7 @@ from fastapi.middleware.cors import CORSMiddleware
 app = FastAPI()
 
 origins = [
-    "http://localhost:3000",  # Adjust this to match your frontend's URL
+    "https://employee-directory-sage.vercel.app",  # Adjust this to match your frontend's URL
 ]
 
 app.add_middleware(
