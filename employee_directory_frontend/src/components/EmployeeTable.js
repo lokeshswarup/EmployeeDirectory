@@ -60,7 +60,7 @@ const EmployeeTable = () => {
   const handleSubmit = async () => {
     try {
       if (editMode) {
-        await axios.put(`https://employeedirectory-931t.onrender.com/employees/${selectedEmployeeId}`, employeeData, {
+        await axios.post(`https://employeedirectory-931t.onrender.com/employees/${selectedEmployeeId}`, employeeData, {
           headers: {
             'Content-Type': 'application/json'
           }
