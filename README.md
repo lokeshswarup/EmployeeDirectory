@@ -3,6 +3,11 @@
 
 This is a simple Employee Directory System built using FastAPI for the backend and React for the frontend. The application allows you to perform CRUD (Create, Read, Update, Delete) operations on employee data stored in a MongoDB database.
 
+## Project link:
+
+- Backend: https://employeedirectory-931t.onrender.com
+- Frontend: https://employee-directory-sage.vercel.app/
+
 ## Features
 
 - Add a new employee
