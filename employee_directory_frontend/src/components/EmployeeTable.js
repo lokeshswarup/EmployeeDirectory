@@ -4,7 +4,7 @@ import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, I
 import { Edit, Delete } from '@mui/icons-material';
 import axios from 'axios';
 
-const columns = [
+const columns = (editEmployee, deleteEmployee) => [
   { field: 'name', headerName: 'Name', width: 150 },
   { field: 'age', headerName: 'Age', width: 100 },
   { field: 'dob', headerName: 'DOB', width: 150 },
@@ -16,10 +16,10 @@ const columns = [
     width: 150,
     renderCell: (params) => (
       <>
-        <IconButton onClick={() => params.api.getRow(params.id).apiRef.current.editEmployee(params.row)}>
+        <IconButton onClick={() => editEmployee(params.row)}>
           <Edit />
         </IconButton>
-        <IconButton onClick={() => params.api.getRow(params.id).apiRef.current.deleteEmployee(params.row.id)}>
+        <IconButton onClick={() => deleteEmployee(params.row.id)}>
           <Delete />
         </IconButton>
       </>
@@ -66,7 +66,7 @@ const EmployeeTable = () => {
           }
         });
       } else {
-        await axios.post('https://employeedirectory-931t.onrender.com/employees/', employeeData, {
+        await axios.post('https://employeedirectory-931t.onrender.com/employees', employeeData, {
           headers: {
             'Content-Type': 'application/json'
           }
@@ -87,7 +87,7 @@ const EmployeeTable = () => {
   };
 
   const deleteEmployee = async (id) => {
-    await axios.delete(`https://employeedirectory-931t.onrender.com/${id}`);
+    await axios.delete(`https://employeedirectory-931t.onrender.com/employees/${id}`);
     fetchEmployees();
   };
 
@@ -97,7 +97,7 @@ const EmployeeTable = () => {
         Add Employee
       </Button>
       <div style={{ height: 400, width: '100%', marginTop: '20px' }}>
-        <DataGrid rows={employees} columns={columns} pageSize={5} getRowId={(row) => row.id} />
+        <DataGrid rows={employees} columns={columns(editEmployee, deleteEmployee)} pageSize={5} getRowId={(row) => row.id} />
       </div>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>{editMode ? 'Edit Employee' : 'Add Employee'}</DialogTitle>
