@@ -69,7 +69,7 @@ async def read_employees(skip: int = 0, limit: int = 10):
     employees = await db["employees"].find().skip(skip).limit(limit).to_list(length=limit)
     return employees
 
-@app.put("/employees/{employee_id}", response_model=Employee)
+@app.post("/employees/{employee_id}", response_model=Employee)
 async def update_employee(employee_id: str, employee: EmployeeUpdate):
     try:
         update_result = await db["employees"].update_one({"_id": employee_id}, {"$set": employee.dict()})
