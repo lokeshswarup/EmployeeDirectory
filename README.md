@@ -44,7 +44,7 @@ This is a simple Employee Directory System built using FastAPI for the backend a
 1. Clone the repository:
 
    ```sh
-   git clone https://github.com/your-username/employee-management-system.git
+   git clone https://github.com/lokeshswarup/EmployeeDirectory
    cd employee_directory_backend
    ```
 
