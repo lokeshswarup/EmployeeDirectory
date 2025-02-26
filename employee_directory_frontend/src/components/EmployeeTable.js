@@ -4,7 +4,7 @@ import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, I
 import { Edit, Delete } from '@mui/icons-material';
 import axios from 'axios';
 
-const columns = (editEmployee, deleteEmployee) => [
+const columns = [
   { field: 'name', headerName: 'Name', width: 150 },
   { field: 'age', headerName: 'Age', width: 100 },
   { field: 'dob', headerName: 'DOB', width: 150 },
@@ -16,10 +16,10 @@ const columns = (editEmployee, deleteEmployee) => [
     width: 150,
     renderCell: (params) => (
       <>
-        <IconButton onClick={() => editEmployee(params.row)}>
+        <IconButton onClick={() => params.api.getRow(params.id).apiRef.current.editEmployee(params.row)}>
           <Edit />
         </IconButton>
-        <IconButton onClick={() => deleteEmployee(params.row._id)}>
+        <IconButton onClick={() => params.api.getRow(params.id).apiRef.current.deleteEmployee(params.row.id)}>
           <Delete />
         </IconButton>
       </>
@@ -39,7 +39,7 @@ const EmployeeTable = () => {
   }, []);
 
   const fetchEmployees = async () => {
-    const response = await axios.get('http://127.0.0.1:8000/employees');
+    const response = await axios.get('https://employeedirectory-931t.onrender.com/employees');
     setEmployees(response.data.map(employee => ({
       ...employee,
       id: employee._id, // Use MongoDB _id as the row id
@@ -60,13 +60,13 @@ const EmployeeTable = () => {
   const handleSubmit = async () => {
     try {
       if (editMode) {
-        await axios.put(`http://127.0.0.1:8000/employees/${selectedEmployeeId}`, employeeData, {
+        await axios.put(`https://employeedirectory-931t.onrender.com/employees/${selectedEmployeeId}`, employeeData, {
           headers: {
             'Content-Type': 'application/json'
           }
         });
       } else {
-        await axios.post('http://127.0.0.1:8000/employees/', employeeData, {
+        await axios.post('https://employeedirectory-931t.onrender.com/employees/', employeeData, {
           headers: {
             'Content-Type': 'application/json'
           }
@@ -87,7 +87,7 @@ const EmployeeTable = () => {
   };
 
   const deleteEmployee = async (id) => {
-    await axios.delete(`http://127.0.0.1:8000/employees/${id}`);
+    await axios.delete(`https://employeedirectory-931t.onrender.com/${id}`);
     fetchEmployees();
   };
 
@@ -97,7 +97,7 @@ const EmployeeTable = () => {
         Add Employee
       </Button>
       <div style={{ height: 400, width: '100%', marginTop: '20px' }}>
-        <DataGrid rows={employees} columns={columns(editEmployee, deleteEmployee)} pageSize={5} getRowId={(row) => row.id} />
+        <DataGrid rows={employees} columns={columns} pageSize={5} getRowId={(row) => row.id} />
       </div>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>{editMode ? 'Edit Employee' : 'Add Employee'}</DialogTitle>
